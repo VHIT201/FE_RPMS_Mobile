@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Linking } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import CustomModal from "../../../components/Modal/index";
 import Profile from "../features/Profile";
@@ -9,11 +9,17 @@ import { removeToken, resetUser } from "../../../store/userSlice";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+import TermsOfUse from "../features/TermsOfUse";
+import PrivacyPolicy from "../features/PrivacyPolicy";
+
 
 const Selector = () => {
   // State để điều khiển việc hiển thị modal
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [changePasswordVisible, setChangePasswordVisible] = useState(false)
+  const [termsOfUseModal, setTermOfUseModal] = useState(false)
+  const [privacyPolicyModal, setPrivacyPolicyModal] = useState(false)
+
   // Hàm để đóng modal
   const handleCloseModal = () => {
     setIsModalVisible(false);
@@ -21,6 +27,28 @@ const Selector = () => {
   const handleClosePasswordModal = () => {
     setChangePasswordVisible(false);
   };
+  const handleCloseTermOfUseModal = () => {
+    setTermOfUseModal(false)
+  }
+  const handleClosePrivacyPolicyModal = () => {
+    setPrivacyPolicyModal(false)
+  }
+
+  const handleCallPress = () => {
+    const phoneNumber = "0898641145";
+    const url = `tel:${phoneNumber}`;
+
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          console.log("Unable to open dialer. Ensure the device supports phone calls.");
+        }
+      })
+      .catch((err) => console.error("An error occurred", err));
+  };
+
 
   const handleLogOut = async () => {
     const dispatch = useDispatch();
@@ -108,6 +136,50 @@ const Selector = () => {
         onLeftIconHeaderPress={handleCloseModal}
         children={
             <Profile closeModal={()=>setIsModalVisible(false)}/>
+        }
+      >
+      </CustomModal>
+
+            {/* Phần Modal */}
+            <CustomModal
+        visible={termsOfUseModal}
+        onClose={handleCloseTermOfUseModal}
+        fullScreen
+        titleHeader={"Điều khoản sử dụng"}
+        modalBackgroundStyle={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        modalContainerStyle={{
+            flex:1,
+            width:"100%"
+        }}
+        headerStyles={{ paddingHorizontal: 10, paddingVertical: 15, justifyContent:"space-between" }}
+        leftIconHeader={Icons.iconLeftArrow} 
+        rightIconHeader={Icons.IconThreeDots}
+        styleIconHeader={{ width: 20, height: 20 }}
+        onLeftIconHeaderPress={handleCloseTermOfUseModal}
+        children={
+            <TermsOfUse closeModal={()=>setTermOfUseModal(false)}/>
+        }
+      >
+      </CustomModal>
+
+            {/* Phần Modal */}
+            <CustomModal
+        visible={privacyPolicyModal}
+        onClose={handleClosePrivacyPolicyModal}
+        fullScreen
+        titleHeader={"Chính sách bảo mật"}
+        modalBackgroundStyle={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        modalContainerStyle={{
+            flex:1,
+            width:"100%"
+        }}
+        headerStyles={{ paddingHorizontal: 10, paddingVertical: 15, justifyContent:"space-between" }}
+        leftIconHeader={Icons.iconLeftArrow} 
+        rightIconHeader={Icons.IconThreeDots}
+        styleIconHeader={{ width: 20, height: 20 }}
+        onLeftIconHeaderPress={handleClosePrivacyPolicyModal}
+        children={
+            <PrivacyPolicy closeModal={()=>setPrivacyPolicyModal(false)}/>
         }
       >
       </CustomModal>
@@ -216,7 +288,7 @@ const Selector = () => {
             justifyContent: "space-between",
           }}
         >
-          <View
+          <TouchableOpacity onPress={()=> setTermOfUseModal(true)}
             style={{ flexDirection: "row", alignItems: "center", width: "95%" }}
           >
             <View style={{ width: "10%" }}>
@@ -227,7 +299,7 @@ const Selector = () => {
                 Điều khoản sử dụng
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
           <Icon name="angle-right" size={24} color="#B0B0B0" />
         </TouchableOpacity>
 
@@ -239,7 +311,7 @@ const Selector = () => {
             justifyContent: "space-between",
           }}
         >
-          <View
+          <TouchableOpacity onPress={()=> setPrivacyPolicyModal(true)}
             style={{ flexDirection: "row", alignItems: "center", width: "95%" }}
           >
             <View style={{ width: "10%" }}>
@@ -250,7 +322,7 @@ const Selector = () => {
                 Chính sách bảo mật
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
           <Icon name="angle-right" size={24} color="#B0B0B0" />
         </TouchableOpacity>
 
@@ -262,7 +334,7 @@ const Selector = () => {
             justifyContent: "space-between",
           }}
         >
-          <View
+          <TouchableOpacity onPress={handleCallPress}
             style={{ flexDirection: "row", alignItems: "center", width: "95%" }}
           >
             <View style={{ width: "10%" }}>
@@ -273,7 +345,7 @@ const Selector = () => {
                 Hotline Hỗ trợ
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
           <Icon name="angle-right" size={24} color="#B0B0B0" />
         </TouchableOpacity>
 

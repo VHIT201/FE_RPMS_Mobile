@@ -129,7 +129,7 @@ const Services = ({ navigation }) => {
           {filteredService.map((item) => (
             <TouchableOpacity
               key={item.id || item.service_name}
-              onPress={() => openGoogleMaps("03 Sông Thao, Phường 2, Tân Bình, Hồ Chí Minh, Việt Nam")} // Chuyển đến địa chỉ cụ thể
+              // onPress={() => openGoogleMaps("03 Sông Thao, Phường 2, Tân Bình, Hồ Chí Minh, Việt Nam")} 
               style={[
                 {
                   width: "30%",

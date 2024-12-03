@@ -19,14 +19,15 @@ import {
 import CustomModal from "../../../components/Modal/index";
 import { Icons } from "../../../assets/icons";
 import { createPayment } from "../../../services/invoiceServices";
-import { WebView } from 'react-native-webview';
+import { WebView } from "react-native-webview";
 
 const Invoice = ({ navigation }) => {
   const dispatch = useDispatch();
   const [selectedStatus, setSelectedStatus] = useState("unpaid"); // Mặc định là chưa thanh toán
   const [modalVisible, setModalVisible] = useState(false); // Trạng thái hiển thị modal
   const [selectedInvoice, setSelectedInvoice] = useState(null); // Hóa đơn được chọn để hiển thị
-  const [roomId, setRoomId] = useState(null)
+  console.log(selectedInvoice);
+  const [roomId, setRoomId] = useState(null);
   const now = new Date();
   const userInfo = useSelector((state) => state.user.userInfo);
   const invoiceList = useSelector((state) => state.invoice.listInvoices);
@@ -36,7 +37,7 @@ const Invoice = ({ navigation }) => {
   // Fetch dữ liệu ban đầu
   const fetchInitialData = async () => {
     const response = await getAllRoomByUserId(userInfo.id);
-    setRoomId(response.data.id)
+    setRoomId(response.data.id);
     await getBillByRoomId(dispatch, response.data.id);
   };
 
@@ -57,11 +58,15 @@ const Invoice = ({ navigation }) => {
 
   const handlePayment = async () => {
     const response = await createPayment(selectedInvoice.id);
-  
+
     if (response.isSuccess) {
-      navigation.navigate("WebViewScreen", { url: response.data, billId: selectedInvoice.id, roomId : roomId }); 
+      navigation.navigate("WebViewScreen", {
+        url: response.data,
+        billId: selectedInvoice.id,
+        roomId: roomId,
+      });
     } else {
-      alert("Thanh toán không thành công!"); 
+      alert("Thanh toán không thành công!");
     }
   };
   function calculateDates() {
@@ -160,7 +165,10 @@ const Invoice = ({ navigation }) => {
               Chưa thanh toán
             </Text>
             <Text style={{ color: "green" }}>
-              {invoiceList.filter((invoice) => invoice.status_payment === 0).length}
+              {
+                invoiceList.filter((invoice) => invoice.status_payment === 0)
+                  .length
+              }
             </Text>
           </TouchableOpacity>
 
@@ -186,7 +194,10 @@ const Invoice = ({ navigation }) => {
               Đã thanh toán
             </Text>
             <Text style={{ color: colors.primary_green }}>
-              {invoiceList.filter((invoice) => invoice.status_payment === 1).length}
+              {
+                invoiceList.filter((invoice) => invoice.status_payment === 1)
+                  .length
+              }
             </Text>
           </TouchableOpacity>
 
@@ -472,27 +483,66 @@ const Invoice = ({ navigation }) => {
               </Text>
             </View>
           </View>
-          <TouchableOpacity
-          onPress={handlePayment}
-            style={{
-              height: 40,
-              width: "90%",
-              marginTop: 40,
-              alignSelf: "center",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 20,
-              backgroundColor: colors.primary_green,
-            }}
-          >
-            <Text style={{ color: "white", fontWeight: "600" }}>
-              Thanh toán
-            </Text>
-          </TouchableOpacity>
-          
+          {selectedInvoice?.status_payment === 0 && (
+            <TouchableOpacity
+              onPress={handlePayment}
+              style={{
+                height: 40,
+                width: "90%",
+                marginTop: 40,
+                alignSelf: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 20,
+                backgroundColor: colors.primary_green,
+              }}
+            >
+              <Text style={{ color: "white", fontWeight: "600" }}>
+                Thanh toán
+              </Text>
+            </TouchableOpacity>
+          )}
+          {
+            selectedInvoice?.status_payment === 1 ? (
+              <View
+              style={{
+                height: 40,
+                width: "90%",
+                marginTop: 40,
+                alignSelf: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 20,
+                backgroundColor: colors.gray59,
+              }}
+            >
+              <Text style={{ color: "white", fontWeight: "600" }}>
+                Đã thanh toán
+              </Text>
+            </View>
+            )
+            :
+            (
+              <View
+              style={{
+                height: 40,
+                width: "90%",
+                marginTop: 40,
+                alignSelf: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 20,
+                backgroundColor: colors.gray59,
+              }}
+            >
+              <Text style={{ color: "red", fontWeight: "600" }}>
+                Quá hạn
+              </Text>
+            </View>
+            )
+          }
         </View>
       </CustomModal>
-     
     </View>
   );
 };
