@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBuildings } from "../../../services/buildingServies";
 import { Icons } from "../../../assets/icons";
 import Icon from "react-native-vector-icons/FontAwesome";
+import LoadingProgress from "../../../components/LoadingProgress";
 
 const GuestBuilding = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -49,13 +50,6 @@ const GuestBuilding = ({ navigation }) => {
     });
   };
 
-  if (loading)
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-
   return (
     <View
       style={[
@@ -74,8 +68,15 @@ const GuestBuilding = ({ navigation }) => {
         }
         titleHeader={"Tòa nhà"}
       />
-
-      {/* Khung tìm kiếm */}
+    {
+      loading ? 
+      (
+        <LoadingProgress/>
+      )
+      :
+      (
+        <>
+        {/* Khung tìm kiếm */}
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
@@ -106,7 +107,7 @@ const GuestBuilding = ({ navigation }) => {
                 {cityData.buildings.map((building, id) => (
                   <BuildingButton
                     key={id}
-                    containerStyle={{ width: "46%" }}
+                    containerStyle={{ width: "45%" }}
                     imageSource={Icons.iconCustom}
                     title={building.building_name}
                     address={building.address}
@@ -118,6 +119,10 @@ const GuestBuilding = ({ navigation }) => {
           ))
         )}
       </ScrollView>
+        </>
+      )
+    }
+      
     </View>
   );
 };

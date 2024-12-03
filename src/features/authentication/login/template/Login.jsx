@@ -142,7 +142,7 @@ const Login = ({ navigation }) => {
         <Text onPress={() => navigation.navigate('GuestBuilding')} style={{ textDecorationLine: 'underline', color: colors.primary_green, fontSize: 13, marginTop: 10 }}>
           Tiếp tục với tư cách khách
         </Text>
-        <View
+        {/* <View
           style={[
             generalStyles.container,
             { width: '100%', paddingHorizontal: 20, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 40 },
@@ -153,7 +153,7 @@ const Login = ({ navigation }) => {
               onPress={() => navigation.navigate('SignUp')}
               style={{ color: colors.primary_green }}>Đăng ký ngay!</Text>
           </Text>
-        </View>
+        </View> */}
       </View>
       {loading && <Spinner />}
     </SafeAreaView>

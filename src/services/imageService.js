@@ -17,6 +17,7 @@ export const uploadImage = async (imageUri) => {
         "Content-Type": "multipart/form-data", // Định dạng multipart/form-data
       },
     });
+    console.log(response.data)
     return response.data; 
   } catch (error) {
     console.error("Lỗi upload ảnh:", error);

@@ -20,6 +20,7 @@ import { showMessage } from "react-native-flash-message";
 import { getAllProblem } from "../../../services/problemServices";
 import { uploadImage } from "../../../services/imageService";
 
+
 const CreateProblemModal = ({
   modalVisible,
   onClose,
@@ -54,56 +55,66 @@ const CreateProblemModal = ({
     setFormState({ ...formState, [field]: value });
   };
 
-  // Mở thư viện ảnh
-  const pickImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
-      Alert.alert(
-        "Quyền truy cập bị từ chối",
-        "Ứng dụng cần quyền truy cập thư viện ảnh."
-      );
-      return;
-    }
+// Mở thư viện ảnh
+const pickImage = async () => {
+  const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  if (status !== "granted") {
+    Alert.alert(
+      "Quyền truy cập bị từ chối",
+      "Ứng dụng cần quyền truy cập thư viện ảnh."
+    );
+    return;
+  }
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 0.8,
-    });
+  const result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 0.8,
+  });
 
-    if (!result.canceled) {
-      setFormState((prevState) => ({
-        ...prevState,
-        images: [...prevState.images, result.assets[0].uri], // Thêm URI vào danh sách
-      }));
-    }
-  };
+  if (!result.canceled) {
+    // Giả sử `uploadImage` trả về một object có dạng { httpStatus, isSuccess, data }
+    const response = await uploadImage(result.assets[0].uri);
+    const uploadedImageUrl = response.data; // Giả sử URL nằm trong trường "data"
+    
+    setFormState((prevState) => ({
+      ...prevState,
+      image: [...prevState.image, uploadedImageUrl], // Thêm URL vào danh sách
+    }));
+  }
+};
 
-  // Chụp ảnh bằng camera
-  const takePhoto = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status !== "granted") {
-      Alert.alert(
-        "Quyền truy cập bị từ chối",
-        "Ứng dụng cần quyền truy cập máy ảnh."
-      );
-      return;
-    }
+// Chụp ảnh bằng camera
+const takePhoto = async () => {
+  const { status } = await ImagePicker.requestCameraPermissionsAsync();
+  if (status !== "granted") {
+    Alert.alert(
+      "Quyền truy cập bị từ chối",
+      "Ứng dụng cần quyền truy cập máy ảnh."
+    );
+    return;
+  }
 
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 0.8,
-    });
+  const result = await ImagePicker.launchCameraAsync({
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 0.8,
+  });
 
-    if (!result.canceled) {
-      setFormState((prevState) => ({
-        ...prevState,
-        images: [...prevState.images, result.assets[0].uri], // Thêm URI vào danh sách
-      }));
-    }
-  };
+  if (!result.canceled) {
+    // Giả sử `uploadImage` trả về một object có dạng { httpStatus, isSuccess, data }
+    const response = await uploadImage(result.assets[0].uri);
+    console.log(response)
+    const uploadedImageUrl = response.data; // Giả sử URL nằm trong trường "data"
+    
+    setFormState((prevState) => ({
+      ...prevState,
+      image: [...prevState.image, uploadedImageUrl], // Thêm URL vào danh sách
+    }));
+  }
+};
+
 
   const handleSubmit = async () => {
     try {
@@ -115,21 +126,7 @@ const CreateProblemModal = ({
         backgroundColor: colors.primary_green,
         color: colors.white,
       });
-  
-      // Upload từng ảnh và nhận danh sách URL
-      const uploadedImageUrls = await Promise.all(
-        formState?.image?.map(async (imageUri) => {
-          const response = await uploadImage(imageUri); // Gọi hàm uploadImage
-          return response.data; // URL trả về từ API
-        })
-      );
-  
-      // Cập nhật URL ảnh trong formState
-      setFormState((prevState) => ({
-        ...prevState,
-        images: uploadedImageUrls, // Ghi đè danh sách URL ảnh
-      }));
-  
+
       // Tạo dữ liệu để gửi
       const data = {
         id: formState.id,
@@ -139,12 +136,12 @@ const CreateProblemModal = ({
         fatal_level: selectedLevel,
         status: formState.status,
         roomid: formState.roomid,
-        image: uploadedImageUrls, // Gửi danh sách URL ảnh
+        image: formState.image, // Gửi danh sách URL ảnh
       };
-      console.log(data)
+
       // Gửi API
       await createProblem(data, dispatch);
-  
+
       // Thông báo thành công
       showMessage({
         message: "Thành công",
@@ -153,10 +150,10 @@ const CreateProblemModal = ({
         backgroundColor: colors.green,
         color: colors.white,
       });
-  
+
       // Lấy danh sách sự cố mới
       await getAllProblem(dispatch);
-  
+
       // Đóng modal
       onClose();
     } catch (error) {
@@ -171,8 +168,6 @@ const CreateProblemModal = ({
       console.error("Lỗi trong handleSubmit:", error);
     }
   };
-  
-  
 
   return (
     <Modal visible={modalVisible} animationType="slide">
@@ -265,7 +260,9 @@ const CreateProblemModal = ({
           </View>
           <ScrollView horizontal style={styles.imagePreviewScroll}>
             {formState.image.map((uri, index) => (
-              <Image key={index} source={{ uri }} style={styles.imagePreview} />
+              <View key={index} style={styles.imagePreviewContainer}>
+                <Image source={{ uri }} style={styles.imagePreview} />
+              </View>
             ))}
           </ScrollView>
         </View>
@@ -361,5 +358,14 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 10,
     marginRight: 10,
+  },
+  imagePreviewContainer: {
+    alignItems: "center",
+    marginRight: 10,
+  },
+  imageUrl: {
+    marginTop: 5,
+    color: "blue",
+    textDecorationLine: "underline",
   },
 });
