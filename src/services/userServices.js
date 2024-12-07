@@ -65,8 +65,7 @@ export const changePassword = async (username, oldPassword, newPassword ) => {
             oldPassword: oldPassword,
             newPassword: newPassword
          }
-        const response = await axios.post(`/identityusers/changepassword`,data) 
-        console.log(response.data)
+        const response = await axios.post(`/identityusers/changepassword`,data)
         return response.data
     } catch (error) {
         console.log(error)
@@ -85,6 +84,16 @@ export const getContractByUserId = async ( userId ) => {
 export const getContractById = async ( contractId ) => {
     try {
         const response = await axios.get(`/contract/download-pdf/${contractId}`);
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const forgotPassword = async ( email ) => {
+    try {
+        const response = await axios.post(`/identityusers/forgotpassword?Email=${email}`)
+        console.log(response.data)
         return response.data
     } catch (error) {
         console.log(error)

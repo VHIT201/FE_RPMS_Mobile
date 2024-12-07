@@ -1,4 +1,3 @@
-// src/store/problemsSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 // Initial state chứa mảng problems và các mảng theo status
@@ -23,11 +22,20 @@ const problemsSlice = createSlice({
       state.problemsStatus2 = action.payload.filter(problem => problem.status == 2);
       state.problemsStatus3 = action.payload.filter(problem => problem.status == 3);
     },
+    
+    // Action để clear data (reset về mảng trống)
+    clearData: (state) => {
+      state.problems = [];
+      state.problemsStatus0 = [];
+      state.problemsStatus1 = [];
+      state.problemsStatus2 = [];
+      state.problemsStatus3 = [];
+    },
   },
 });
 
 // Export các action để sử dụng trong components
-export const { setProblems } = problemsSlice.actions;
+export const { setProblems, clearData } = problemsSlice.actions;
 
 // Export reducer để sử dụng trong store
 export default problemsSlice.reducer;

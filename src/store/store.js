@@ -8,6 +8,7 @@ import problemReducer from './problemSlice'
 import guestReducer from './guestSlice'
 import thunk from 'redux-thunk';
 import invoiceReducer from './invoiceSlice'
+import notificationReducer from './notificationSlice'
 export const store = configureStore({
   reducer: {
     user: userReducer, // Kết hợp user reducer vào store
@@ -16,7 +17,8 @@ export const store = configureStore({
     service: serviceReducer,
     problems: problemReducer,
     guest: guestReducer,
-    invoice: invoiceReducer
+    invoice: invoiceReducer,
+    notification : notificationReducer
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

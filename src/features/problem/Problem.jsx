@@ -16,7 +16,10 @@ import ProblemComponent from "./components/ProblemContainer";
 import CreateProblemModal from "./components/CreateProblemComponent";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllRoomByUserId } from "../../services/userServices";
-import { getAllProblem } from "../../services/problemServices";
+import {
+  getAllProblem,
+  getProblemByRoomId,
+} from "../../services/problemServices";
 import { showMessage } from "react-native-flash-message";
 import { useFocusEffect } from "@react-navigation/native"; // Import useFocusEffect
 
@@ -44,8 +47,10 @@ const Problem = ({ navigation }) => {
     useCallback(() => {
       const fetchInitialData = async () => {
         if (userData) {
-          await getAllRoomByUserId(userData.id, dispatch);
-          await getAllProblem(dispatch);
+          const response = await getAllRoomByUserId(userData.id, dispatch);
+          if (response.data) {
+            await getProblemByRoomId();
+          }
         }
       };
 
@@ -138,14 +143,14 @@ const Problem = ({ navigation }) => {
             return (
               selectedStatus === status &&
               (problems?.length > 0 ? (
-                problems?.map((problem, index) => (
+                problems?.map((problem) => (
                   <ProblemComponent
-                    key={problem.id}
-                    roomName={problem.room_name}
-                    status={problem.status}
-                    issue={problem.problem}
-                    description={problem.decription}
-                    userName={userData.lastName}
+                    key={problem?.id} // Dùng id của problem để làm key duy nhất
+                    roomName={problem?.room_name}
+                    status={problem?.status}
+                    issue={problem?.problem}
+                    description={problem?.decription}
+                    userName={userData?.lastName}
                     date="08/11/2024"
                     colors={colors}
                     generalStyles={generalStyles}
@@ -158,9 +163,9 @@ const Problem = ({ navigation }) => {
                     justifyContent: "flex-end",
                     alignItems: "center",
                   }}
+                  key={`${status}-empty`} // Dùng chuỗi tĩnh để làm key khi danh sách trống
                 >
                   <Text
-                    key={index}
                     style={{
                       textAlign: "center",
                       color: colors.gray59,
@@ -174,6 +179,7 @@ const Problem = ({ navigation }) => {
             );
           }
         )}
+
         <View style={{ height: 150 }}></View>
       </ScrollView>
 

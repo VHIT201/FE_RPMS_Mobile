@@ -32,13 +32,13 @@ const CreateProblemModal = ({
   // Khởi tạo trạng thái ban đầu
   const initialFormState = {
     id: userData.id,
-    room_name: userRoomList.room_name,
+    room_name: userRoomList?.room_name,
     problem: "",
     decription: "",
     image: [], // Lưu nhiều ảnh
     fatal_level: 0,
     status: 0,
-    roomid: userRoomList.id,
+    roomid: userRoomList?.id,
   };
   const [formState, setFormState] = useState(initialFormState);
   const [selectedLevel, setSelectedLevel] = useState(0);

@@ -18,10 +18,10 @@ import { getUserInformation } from '../../../../services/userServices';
 import { getAllRoomByUserId } from '../../../../services/userServices';
 
 const Login = ({ navigation }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('vanhoangb32001@gmail.com');
+  const [password, setPassword] = useState('RPMS@2024');
   const [loading, setLoading] = useState(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // Trạng thái mật khẩu có hiển thị không
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const Login = ({ navigation }) => {
       }
     } catch (error) {
       setLoading(false);
-      console.error('Login error:', error);
+      console.log('Login error:', error);
       showMessage({
         message: "Đã xảy ra lỗi, vui lòng thử lại sau.",
         type: "danger",
@@ -136,7 +136,7 @@ const Login = ({ navigation }) => {
           textStyle={{ color: colors.white, fontWeight: '600' }}
         />
         
-        <Text style={{ textDecorationLine: 'underline', fontSize: 13, marginTop: 10, color: colors.light_black }}>
+        <Text onPress={()=>navigation.navigate('ForgotPassword')} style={{ textDecorationLine: 'underline', fontSize: 13, marginTop: 10, color: colors.light_black }}>
           Bạn quên mật khẩu?
         </Text>
         <Text onPress={() => navigation.navigate('GuestBuilding')} style={{ textDecorationLine: 'underline', color: colors.primary_green, fontSize: 13, marginTop: 10 }}>

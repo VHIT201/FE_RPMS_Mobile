@@ -34,6 +34,8 @@ import GuestDetailBuilding from "./src/features/guest/HomeBuilding/GuestDetailBu
 import CreateBooking from "./src/features/guest/room/createBooking";
 import Invoice from "./src/features/avoice/template";
 import WebViewScreen from "./src/features/avoice/components/WebViewScreen";
+import NotificationMainView from "./src/features/notification/template";
+import ForgotPasswordScreen from "./src/features/authentication/forgotPassword/template";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -83,15 +85,15 @@ const BottomTabs = () => {
                   style={{ width: 30, height: 30 }}
                 />
               );
-            case "Message":
+            case "Notification":
               return focused ? (
                 <Image
-                  source={BottomBarIcons.ChatActive}
+                  source={BottomBarIcons.NotificationAct}
                   style={{ width: 20, height: 20 }}
                 />
               ) : (
                 <Image
-                  source={BottomBarIcons.ChatNonActive}
+                  source={BottomBarIcons.NotificationNoAct}
                   style={{ width: 20, height: 20 }}
                 />
               );
@@ -139,11 +141,11 @@ const BottomTabs = () => {
         options={{ tabBarLabel: "Trang chủ" }}
       />
 
-      {/* <Tab.Screen
-        name="Message"
-        component={Message}
-        options={{ tabBarLabel: "Tin nhắn" }}
-      /> */}
+      <Tab.Screen
+        name="Notification"
+        component={NotificationMainView}
+        options={{ tabBarLabel: "Thông báo" }}
+      />
       {/* <Tab.Screen
         name="CashFlow"
         component={CashFlow}
@@ -209,6 +211,7 @@ const App = () => {
             <Stack.Screen name="Invoice" component={Invoice} />
             <Stack.Screen name="WebViewScreen" component={WebViewScreen} />
             <Stack.Screen name="Contract" component={Contract} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
             
           </Stack.Navigator>
           <FlashMessage position="top" />

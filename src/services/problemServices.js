@@ -26,3 +26,16 @@ export const getAllProblem = async (dispatch) => {
   };
   
 
+export const getProblemByRoomId = async (roomId, dispatch) => {
+  try {
+    const response = await axios.get(`/problem/getproblembyroomid?id=${roomId}`)
+    if(response.data.data) {
+      dispatch(setProblems(data));
+    } else {
+      return null
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+

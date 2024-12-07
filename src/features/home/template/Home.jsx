@@ -17,11 +17,12 @@ const Home = ({ navigation }) => {
   const userData = useSelector((state) => state.user?.userInfo || {});
   const userDataRoom = useSelector((state) => state.user?.userRoom) // Đảm bảo userData không undefine
   const buildingData = useSelector((state) => state.building?.building)
+
   const fetchInitialData = async () => {
     const token = await AsyncStorage.getItem("userToken"); 
     setUserToken(token);
-    const response = await getAllRoomByUserId(userData.id, dispatch)
-    await fetchBuildingById( dispatch,response.data.building_Id, token)
+    const response = await getAllRoomByUserId(userData?.id, dispatch)
+    await fetchBuildingById( dispatch,response?.data?.building_Id, token)
   }
   useEffect(() => {
     fetchInitialData()
@@ -29,14 +30,15 @@ const Home = ({ navigation }) => {
     
   const infoData = [
     [
-      { label: 'Tòa nhà', value: buildingData.building_name},
-      { label: 'Số tầng', value: buildingData.number_of_floors },
+      { label: 'Tòa nhà', value: buildingData?.building_name || 0 }, // Hiển thị 0 nếu building_name là null hoặc undefined
+      { label: 'Số tầng', value: buildingData?.number_of_floors || 0 }, // Hiển thị 0 nếu number_of_floors là null hoặc undefined
     ],
     [
-      { label: 'Tên phòng', value: userDataRoom.room_name},
-      { label: 'Thành phố', value: buildingData.city },
+      { label: 'Tên phòng', value: userDataRoom?.room_name || 0 }, // Hiển thị 0 nếu room_name là null hoặc undefined
+      { label: 'Thành phố', value: buildingData?.city || 0 }, // Hiển thị 0 nếu city là null hoặc undefined
     ],
   ];
+  
 
   const menuData = [
     [
@@ -50,6 +52,7 @@ const Home = ({ navigation }) => {
       { icon: Icons.iconBill, label: 'Sổ nợ' },
     ],
     [
+      { },
 
     ],
   ];

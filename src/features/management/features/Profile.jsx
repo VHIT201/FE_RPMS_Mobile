@@ -15,26 +15,29 @@ import {
 import colors from "../../../values/colors";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import { getCustomerByUserId, updateCustomer } from "../../../services/userServices";
+import {
+  getCustomerByUserId,
+  updateCustomer,
+} from "../../../services/userServices";
 import { showMessage } from "react-native-flash-message";
 
 // Hàm format ngày từ định dạng "YYYY-MM-DD" sang "dd/MM/yyyy"
 const formatDate = (dateString) => {
   if (!dateString) return "";
   const date = new Date(dateString);
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 };
 
-const Profile = ({closeModal}) => {
+const Profile = ({ closeModal }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const [userData, setUserData] = useState({});
   const [isModified, setIsModified] = useState(false); // State để theo dõi sự thay đổi
-// console.log(userData)
+  // console.log(userData)
   // State để lưu trữ thông tin chỉnh sửa
-  const [name, setName] = useState(userData?.customer_name)
+  const [name, setName] = useState(userData?.customer_name);
   const [phone, setPhone] = useState(userInfo?.phone);
   const [dob, setDob] = useState(""); // ngày sinh (không thể thay đổi)
   const [cmnd, setCmnd] = useState(""); // CMND/CCCD
@@ -45,8 +48,7 @@ const Profile = ({closeModal}) => {
   const fetchInititalData = async () => {
     const response = await getCustomerByUserId(userInfo.id);
     setUserData(response.data);
-    
-    
+
     // Khởi tạo state từ dữ liệu userData sau khi fetch thành công
     if (response.data) {
       setDob(formatDate(response.data.date_of_birth));
@@ -72,28 +74,27 @@ const Profile = ({closeModal}) => {
 
   const handleUpdateData = async () => {
     const updatedData = {
-      ...userData,  // Giữ lại tất cả dữ liệu gốc
+      ...userData, // Giữ lại tất cả dữ liệu gốc
       phone_number: phone,
       cccd: cmnd,
       address: address,
       place_of_issue: placeOfIssue,
     };
-  
+
     // console.log("Cập nhật dữ liệu:", updatedData);
-    const response = await updateCustomer(updatedData.id, updatedData)
-    if(response.isSuccess) {
+    const response = await updateCustomer(updatedData.id, updatedData);
+    if (response.isSuccess) {
       showMessage({
         message: "Sửa thông tin thành công!",
         type: "success",
         backgroundColor: colors.primary_green,
       });
-      closeModal()
+      closeModal();
     }
-  
+
     // Bạn có thể gọi API hoặc xử lý lưu dữ liệu tại đây
-    setIsModified(false);  // Sau khi lưu, không còn thay đổi nữa
+    setIsModified(false); // Sau khi lưu, không còn thay đổi nữa
   };
-  
 
   return (
     <KeyboardAvoidingView
@@ -102,28 +103,38 @@ const Profile = ({closeModal}) => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <View style={{ width: "100%", flex: 1, backgroundColor: 'white' }}>
+          <View style={{ width: "100%", flex: 1, backgroundColor: "white" }}>
             {/* Thông tin người dùng */}
             <View style={styles.profileContainer}>
               <View style={styles.headerContainer}>
                 <View style={styles.avatarContainer}>
                   <Image
                     style={styles.avatarImage}
-                    source={{ uri: userInfo.avata }}
+                    source={{
+                      uri:
+                        userInfo?.avata && userInfo.avata !== "" // Kiểm tra nếu có avatar
+                          ? userInfo.avata
+                          : "https://i.ibb.co/CmYyjRt/453178253-471506465671661-2781666950760530985-n.png", // Avatar mặc định
+                    }}
                   />
                 </View>
+
                 <View style={{ flexDirection: "column", gap: 3 }}>
                   <Text style={{ fontSize: 16, fontWeight: "600" }}>
                     {userData.customer_name}
                   </Text>
-                  <Text style={{ fontSize: 13, fontWeight: "500" }}>{phone}</Text>
+                  <Text style={{ fontSize: 13, fontWeight: "500" }}>
+                    {phone}
+                  </Text>
                 </View>
               </View>
               <View style={styles.divider} />
 
               <View style={styles.infoRow}>
                 <Text style={styles.label}>Loại tài khoản</Text>
-                <Text style={[styles.value, styles.rightAlign]}>{userInfo.role}</Text>
+                <Text style={[styles.value, styles.rightAlign]}>
+                  {userInfo.role}
+                </Text>
               </View>
             </View>
 
@@ -159,7 +170,13 @@ const Profile = ({closeModal}) => {
               {/* Email */}
               <View style={styles.inputRow}>
                 <Text style={styles.inputLabel}>Email</Text>
-                <Text style={[styles.inputField, styles.rightAlign, { color: colors.gray59 }]}>
+                <Text
+                  style={[
+                    styles.inputField,
+                    styles.rightAlign,
+                    { color: colors.gray59 },
+                  ]}
+                >
                   {userInfo.email}
                 </Text>
               </View>
@@ -167,7 +184,13 @@ const Profile = ({closeModal}) => {
               {/* Ngày sinh (không thể chỉnh sửa) */}
               <View style={styles.inputRow}>
                 <Text style={styles.inputLabel}>Ngày sinh</Text>
-                <Text style={[styles.inputField, styles.rightAlign, { color: colors.gray59 }]}>
+                <Text
+                  style={[
+                    styles.inputField,
+                    styles.rightAlign,
+                    { color: colors.gray59 },
+                  ]}
+                >
                   {dob}
                 </Text>
               </View>
@@ -186,7 +209,13 @@ const Profile = ({closeModal}) => {
               {/* Ngày cấp (không thể chỉnh sửa) */}
               <View style={styles.inputRow}>
                 <Text style={styles.inputLabel}>Ngày cấp</Text>
-                <Text style={[styles.inputField, styles.rightAlign, { color: colors.gray59 }]}>
+                <Text
+                  style={[
+                    styles.inputField,
+                    styles.rightAlign,
+                    { color: colors.gray59 },
+                  ]}
+                >
                   {dateOfIssue}
                 </Text>
               </View>
@@ -216,11 +245,14 @@ const Profile = ({closeModal}) => {
 
             {/* Nút Lưu thay đổi */}
             {isModified && (
-              <TouchableOpacity onPress={handleUpdateData} style={styles.saveButton}>
+              <TouchableOpacity
+                onPress={handleUpdateData}
+                style={styles.saveButton}
+              >
                 <Text style={styles.saveButtonText}>Lưu thay đổi</Text>
               </TouchableOpacity>
             )}
-            <View style={{height:200}}></View>
+            <View style={{ height: 200 }}></View>
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>

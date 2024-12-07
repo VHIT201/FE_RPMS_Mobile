@@ -11,15 +11,16 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import TermsOfUse from "../features/TermsOfUse";
 import PrivacyPolicy from "../features/PrivacyPolicy";
-
-
+import { showMessage } from "react-native-flash-message";
+import colors from "../../../values/colors";
 const Selector = () => {
   // State để điều khiển việc hiển thị modal
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [changePasswordVisible, setChangePasswordVisible] = useState(false)
   const [termsOfUseModal, setTermOfUseModal] = useState(false)
   const [privacyPolicyModal, setPrivacyPolicyModal] = useState(false)
-
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
   // Hàm để đóng modal
   const handleCloseModal = () => {
     setIsModalVisible(false);
@@ -51,8 +52,6 @@ const Selector = () => {
 
 
   const handleLogOut = async () => {
-    const dispatch = useDispatch();
-    const navigation = useNavigation();
   
     try {
       // Xóa token khỏi AsyncStorage và Redux
@@ -62,7 +61,7 @@ const Selector = () => {
       showMessage({
         message: 'Đăng xuất thành công!',
         type: 'success',
-        backgroundColor: '#4CAF50', // Màu xanh lá
+        backgroundColor: colors.primary_green, // Màu xanh lá
       });
   
       // Chuyển hướng đến màn hình đăng nhập

@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View, Image, Alert, ScrollView } from "react-native";
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  Alert,
+  ScrollView,
+} from "react-native";
 import generalStyles from "../../../styles/generalStyles";
 import { Icons } from "../../../assets/icons";
 import { fontFamily } from "../../../assets/fonts/useFont";
@@ -12,11 +19,11 @@ import { updateAvata } from "../../../services/userServices";
 import Icon from "react-native-vector-icons/FontAwesome";
 import colors from "../../../values/colors";
 import Selector from "../components/Selector";
-import CustomModal from "../../../components/Modal/index"
+import CustomModal from "../../../components/Modal/index";
 
 const Management = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [imageUri, setImageUri] = useState(null); // Trạng thái lưu trữ URI ảnh
+  const [imageUri, setImageUri] = useState(null);
   const userInfo = useSelector((state) => state.user?.userInfo || {});
 
   // Hàm mở ảnh từ thư viện
@@ -84,7 +91,7 @@ const Management = () => {
       [
         { text: "Chụp ảnh", onPress: pickImageFromCamera },
         { text: "Chọn ảnh từ thư viện", onPress: pickImageFromLibrary },
-        { text: "Hủy", style: "cancel" }, 
+        { text: "Hủy", style: "cancel" },
       ],
       { cancelable: true }
     );
@@ -92,13 +99,15 @@ const Management = () => {
 
   return (
     <View style={[managementStyles.container, { flex: 1, width: "100%" }]}>
-      <ScrollView contentContainerStyle={{flex:1, backgroundColor:colors.lightGray}}>
+      <ScrollView
+        contentContainerStyle={{ flex: 1, backgroundColor: colors.lightGray }}
+      >
         <View
           style={{
             height: "18%",
             width: "100%",
             backgroundColor: colors.primary_green,
-            paddingBottom:'10%'
+            paddingBottom: "10%",
           }}
         >
           <View
@@ -110,14 +119,14 @@ const Management = () => {
             <View style={managementStyles.avatarContainer}>
               <TouchableOpacity onPress={showImagePickerOptions}>
                 <View style={managementStyles.avatarCircle}>
-                  {userInfo?.avata ? (
+                  {imageUri || userInfo?.avata ? (
                     <Image
                       source={{ uri: imageUri || userInfo?.avata }}
                       style={managementStyles.avatarContainer}
                     />
                   ) : (
                     <Image
-                      source={Icons.IconDefaultAvatar}
+                      source={{uri:"https://i.ibb.co/CmYyjRt/453178253-471506465671661-2781666950760530985-n.png"}} // Thay bằng đường dẫn ảnh giữ chỗ
                       style={managementStyles.avatarContainer}
                     />
                   )}
@@ -138,6 +147,7 @@ const Management = () => {
                 </TouchableOpacity>
               </TouchableOpacity>
             </View>
+
             <Text
               style={[
                 { fontFamily: fontFamily.bold, fontSize: 14 },
@@ -148,8 +158,8 @@ const Management = () => {
             </Text>
           </View>
         </View>
-        <View style={{flex:1, width:"100%", paddingHorizontal:10}}>
-          <Selector/>
+        <View style={{ flex: 1, width: "100%", paddingHorizontal: 10 }}>
+          <Selector />
         </View>
       </ScrollView>
     </View>

@@ -65,6 +65,8 @@ const BottomBarIcons = {
   WalletNoActive : require('./icon_wallet_noact.png'),
   ManagementAct : require('./icon_management_act.png'),
   ManagementNoAct : require('./icon_management_noact.png'),
+  NotificationNoAct : require('./icon_notification_outline.png'),
+  NotificationAct : require('./icon_notification_full_fill.png')
 };
 
 const ChatBottomBarIcons = {

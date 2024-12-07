@@ -15,8 +15,7 @@ import colors from "../../../values/colors";
 import { changePassword } from "../../../services/userServices";
 import { useSelector } from "react-redux";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { showMessage } from "react-native-flash-message"; // Import showMessage
-import { FlashMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message"; 
 
 
 const ChangePassword = ({closeModal}) => {

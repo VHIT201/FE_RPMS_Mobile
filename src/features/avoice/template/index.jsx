@@ -26,7 +26,6 @@ const Invoice = ({ navigation }) => {
   const [selectedStatus, setSelectedStatus] = useState("unpaid"); // Mặc định là chưa thanh toán
   const [modalVisible, setModalVisible] = useState(false); // Trạng thái hiển thị modal
   const [selectedInvoice, setSelectedInvoice] = useState(null); // Hóa đơn được chọn để hiển thị
-  console.log(selectedInvoice);
   const [roomId, setRoomId] = useState(null);
   const now = new Date();
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -36,9 +35,14 @@ const Invoice = ({ navigation }) => {
 
   // Fetch dữ liệu ban đầu
   const fetchInitialData = async () => {
-    const response = await getAllRoomByUserId(userInfo.id);
-    setRoomId(response.data.id);
-    await getBillByRoomId(dispatch, response.data.id);
+    const response = await getAllRoomByUserId(userInfo?.id);
+    if(response?.data?.id){
+      setRoomId(response?.data.id);
+      await getBillByRoomId(dispatch, response.data.id);
+    }
+    else {
+      return null;
+    }
   };
 
   // useEffect(() => {
