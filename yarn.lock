@@ -6301,6 +6301,11 @@ react-native-modal-datetime-picker@^18.0.0:
   dependencies:
     prop-types "^15.7.2"
 
+react-native-otp-entry@^1.7.3:
+  version "1.7.3"
+  resolved "https://registry.npmjs.org/react-native-otp-entry/-/react-native-otp-entry-1.7.3.tgz"
+  integrity sha512-BN/oEpNMfA0cnw9tB9Oq6PZZQztOiq1Ow/M+rAFd0Nll9aO1gwfCwymgIGI89/+63FkmMbv39LcgsfkZNAYzWw==
+
 react-native-pager-view@*, react-native-pager-view@^6.4.1, "react-native-pager-view@>= 4.0.0":
   version "6.4.1"
   resolved "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-6.4.1.tgz"

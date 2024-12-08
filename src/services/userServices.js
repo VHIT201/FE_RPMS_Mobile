@@ -93,7 +93,25 @@ export const getContractById = async ( contractId ) => {
 export const forgotPassword = async ( email ) => {
     try {
         const response = await axios.post(`/identityusers/forgotpassword?Email=${email}`)
-        console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const verifyOtp = async ( email, otp ) => {
+    try {
+        const response = await axios.post(`/identityusers/verifyotp?email=${email}&otp=${otp}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const updatePasswordForget = async ( email, enteredCode, newPassword) => {
+    try {
+        const response = await axios.post(`/identityusers/updatepassword?email=${email}&enteredCode=${enteredCode}&newPassword=${newPassword}`)
         return response.data
     } catch (error) {
         console.log(error)
