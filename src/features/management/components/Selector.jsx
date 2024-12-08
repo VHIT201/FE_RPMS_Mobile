@@ -404,7 +404,9 @@ const Selector = () => {
           </View>
           <Icon name="angle-right" size={24} color="#B0B0B0" />
         </TouchableOpacity>
+
       </View>
+      <View style={{height:100}}></View>
     </View>
   );
 };

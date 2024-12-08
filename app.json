@@ -8,8 +8,8 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "resize": "contain"
     },
     "ios": {
       "supportsTablet": true
@@ -25,7 +25,24 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
-    ]
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#232323",
+          "image": "./assets/splash-icon.png",
+          "dark": {
+            "image": "./assets/splash-icon.png",
+            "backgroundColor": "#000000"
+          },
+          "imageWidth": 100
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "08d852de-8290-4be1-b0e8-a1cefdfdf620"
+      }
+    }
   }
 }

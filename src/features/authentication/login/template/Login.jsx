@@ -19,7 +19,7 @@ import { getAllRoomByUserId } from '../../../../services/userServices';
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState('vanhoangb32001@gmail.com');
-  const [password, setPassword] = useState('RPMS@2024');
+  const [password, setPassword] = useState('Hoang2002');
   const [loading, setLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const dispatch = useDispatch();
@@ -76,7 +76,7 @@ const Login = ({ navigation }) => {
       setLoading(false);
       console.log('Login error:', error);
       showMessage({
-        message: "Đã xảy ra lỗi, vui lòng thử lại sau.",
+        message: "Đăng nhập thất bại! Vui lòng kiểm tra thông tin của bạn.",
         type: "danger",
       });
     }

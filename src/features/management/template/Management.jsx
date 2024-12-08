@@ -158,9 +158,9 @@ const Management = () => {
             </Text>
           </View>
         </View>
-        <View style={{ flex: 1, width: "100%", paddingHorizontal: 10 }}>
+        <ScrollView style={{ flex: 1, width: "100%", paddingHorizontal: 10 }}>
           <Selector />
-        </View>
+        </ScrollView>
       </ScrollView>
     </View>
   );

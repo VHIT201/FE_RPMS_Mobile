@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
 import { store } from "./src/store/store";
 import { BottomBarIcons } from "./src/assets/icons";
-import * as SplashScreen from "expo-splash-screen"; // Import SplashScreen
+import * as SplashScreen from "expo-splash-screen";
 import Intro from "./src/features/authentication/intro/template/Intro";
 import Login from "./src/features/authentication/login/template/Login";
 import SignUp from "./src/features/authentication/signup/template/SignUp";
