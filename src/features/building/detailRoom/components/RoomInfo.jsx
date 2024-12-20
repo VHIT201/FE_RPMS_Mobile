@@ -210,5 +210,9 @@ const styles = StyleSheet.create({
     flexDirection:"row",
     marginBottom:10,
     gap:5
+  },
+  noServiceText :{
+    marginBottom:10,
+    alignSelf:"center"
   }
 });

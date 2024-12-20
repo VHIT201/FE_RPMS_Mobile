@@ -531,15 +531,17 @@ const Invoice = ({ navigation }) => {
               style={{
                 height: 40,
                 width: "90%",
-                marginTop: 40,
+                marginTop: 20,
                 alignSelf: "center",
                 justifyContent: "center",
                 alignItems: "center",
                 borderRadius: 20,
-                backgroundColor: colors.gray59,
+                backgroundColor: 'white',
+                borderWidth:1,
+                borderColor: colors.primary_green 
               }}
             >
-              <Text style={{ color: "red", fontWeight: "600" }}>
+              <Text style={{ color: colors.primary_green, fontWeight: "600" }}>
                 Quá hạn
               </Text>
             </View>

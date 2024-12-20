@@ -49,7 +49,7 @@ const Problem = ({ navigation }) => {
         if (userData) {
           const response = await getAllRoomByUserId(userData.id, dispatch);
           if (response.data) {
-            await getProblemByRoomId();
+            await getProblemByRoomId(response.id, dispatch);
           }
         }
       };

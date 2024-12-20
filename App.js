@@ -37,6 +37,10 @@ import WebViewScreen from "./src/features/avoice/components/WebViewScreen";
 import NotificationMainView from "./src/features/notification/template";
 import ForgotPasswordScreen from "./src/features/authentication/forgotPassword/template";
 
+import { LogLevel, OneSignal } from "react-native-onesignal";
+import Constants from "expo-constants";
+
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -54,6 +58,11 @@ const BottomTabs = () => {
   if (!fontsLoaded) {
     return null; // Giữ màn hình splash cho đến khi font tải xong
   }
+
+  // OneSignal.Debug.setLogLevel(LogLevel.Verbose);
+  // OneSignal.initialize(Constants.expoConfig.extra.oneSignalAppId);
+  // OneSignal.Notifications.requestPermission(true);
+  // OneSignal.setAppId("bfb77e57-16be-400a-9936-34248d4b9607");
 
   return (
     <Tab.Navigator
@@ -141,11 +150,11 @@ const BottomTabs = () => {
         options={{ tabBarLabel: "Trang chủ" }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Notification"
         component={NotificationMainView}
         options={{ tabBarLabel: "Thông báo" }}
-      />
+      /> */}
       {/* <Tab.Screen
         name="CashFlow"
         component={CashFlow}
@@ -211,8 +220,11 @@ const App = () => {
             <Stack.Screen name="Invoice" component={Invoice} />
             <Stack.Screen name="WebViewScreen" component={WebViewScreen} />
             <Stack.Screen name="Contract" component={Contract} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-            
+            <Stack.Screen name="NotificationMainView" component={NotificationMainView} />
+            <Stack.Screen
+              name="ForgotPassword"
+              component={ForgotPasswordScreen}
+            />
           </Stack.Navigator>
           <FlashMessage position="top" />
         </NavigationContainer>

@@ -18,8 +18,8 @@ import { getUserInformation } from '../../../../services/userServices';
 import { getAllRoomByUserId } from '../../../../services/userServices';
 
 const Login = ({ navigation }) => {
-  const [username, setUsername] = useState('vanhoangb32001@gmail.com');
-  const [password, setPassword] = useState('Hoang2002');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const dispatch = useDispatch();

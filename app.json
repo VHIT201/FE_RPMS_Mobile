@@ -12,7 +12,8 @@
       "resize": "contain"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vanhoangi2001.quanlycanho"
     },
     "android": {
       "adaptiveIcon": {
@@ -37,11 +38,18 @@
           },
           "imageWidth": 100
         }
+      ],
+      [
+        "onesignal-expo-plugin",
+        {
+          "mode": "development" 
+        }
       ]
     ],
     "extra": {
       "eas": {
-        "projectId": "08d852de-8290-4be1-b0e8-a1cefdfdf620"
+        "projectId": "08d852de-8290-4be1-b0e8-a1cefdfdf620",
+        "oneSignalAppId": "bfb77e57-16be-400a-9936-34248d4b9607"
       }
     }
   }
